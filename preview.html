@@ -8,7 +8,6 @@
   <link rel="apple-touch-icon" href="/logo.png">
   <link rel="shortcut icon" href="/favicon.ico">
   <link rel="stylesheet" href="/theme.css">
-  <script src="/theme.js?v=20260305"></script>
   <style>
     :root {
       --bg: #f4f6f8;
@@ -413,6 +412,490 @@
       min-height: 100vh;
     }
 
+    :root {
+      --bg: #f5f7fb;
+      --panel: #fbfcff;
+      --text: #111827;
+      --muted: #667085;
+      --line: #d8e0ea;
+      --brand: #0f766e;
+      --brand-dark: #115e59;
+      --danger: #b42318;
+      --code-bg: #0c1220;
+      --code-text: #e7eef8;
+      --shadow: 0 20px 56px rgba(15, 23, 42, 0.12);
+      --accent: #f59e0b;
+    }
+
+    body {
+      background:
+        linear-gradient(180deg, #eef4f7 0%, #f7f8fb 48%, #eef2f7 100%);
+    }
+
+    .theme-floating-toggle,
+    .theme-auto-inline-toggle,
+    .theme-admin-toggle,
+    [data-theme-toggle] {
+      display: none !important;
+    }
+
+    .topbar {
+      min-height: 68px;
+      padding: 14px 24px;
+      background: rgba(251, 252, 255, 0.92);
+      -webkit-backdrop-filter: blur(18px);
+      backdrop-filter: blur(18px);
+    }
+
+    .title-group h1 {
+      font-size: 17px;
+    }
+
+    .title-group p {
+      max-width: 62vw;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .btn {
+      border-radius: 7px;
+      font-weight: 650;
+      box-shadow: 0 1px 0 rgba(255, 255, 255, 0.85) inset;
+    }
+
+    .file-panel {
+      border-radius: 8px;
+      box-shadow: 0 14px 36px rgba(15, 23, 42, 0.09);
+    }
+
+    .pill {
+      border-radius: 7px;
+      background: #f3f6fa;
+      font-weight: 650;
+    }
+
+    .viewer {
+      border-radius: 8px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(247, 249, 252, 0.96)),
+        #fff;
+      box-shadow: 0 18px 52px rgba(15, 23, 42, 0.13);
+    }
+
+    .viewer.media {
+      background:
+        linear-gradient(180deg, rgba(8, 13, 22, 0.94), rgba(11, 18, 32, 0.98));
+    }
+
+    .viewer.media::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+      background-size: 24px 24px;
+      opacity: 0.42;
+    }
+
+    .preview-image {
+      position: relative;
+      z-index: 1;
+      padding: 18px;
+      background:
+        linear-gradient(45deg, rgba(255, 255, 255, 0.04) 25%, transparent 25%),
+        linear-gradient(-45deg, rgba(255, 255, 255, 0.04) 25%, transparent 25%),
+        #070b12;
+      background-size: 20px 20px;
+      background-position: 0 0, 0 10px;
+    }
+
+    .media-frame,
+    .audio-console,
+    .summary-view,
+    .archive-view,
+    .font-view,
+    .data-view,
+    .markdown-view {
+      position: relative;
+      z-index: 1;
+    }
+
+    .media-frame {
+      width: 100%;
+      height: 100%;
+      min-height: calc(100vh - 230px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+    }
+
+    .media-frame .preview-video {
+      border-radius: 8px;
+      background: #030712;
+      box-shadow: 0 26px 80px rgba(0, 0, 0, 0.38);
+    }
+
+    .audio-console {
+      width: min(760px, calc(100% - 40px));
+      color: #fff;
+      padding: 28px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 8px;
+      background:
+        linear-gradient(135deg, rgba(15, 23, 42, 0.94), rgba(19, 78, 74, 0.72)),
+        #0b1220;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.36);
+    }
+
+    .audio-head {
+      display: grid;
+      grid-template-columns: 64px minmax(0, 1fr);
+      gap: 16px;
+      align-items: center;
+      margin-bottom: 22px;
+    }
+
+    .audio-mark {
+      width: 64px;
+      height: 64px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      color: #101828;
+      background: linear-gradient(135deg, #f8fafc, #99f6e4 70%, #fbbf24);
+      font-size: 27px;
+      font-weight: 800;
+    }
+
+    .audio-title {
+      min-width: 0;
+    }
+
+    .audio-title strong {
+      display: block;
+      overflow-wrap: anywhere;
+      font-size: 18px;
+      line-height: 1.35;
+      margin-bottom: 6px;
+    }
+
+    .audio-title span,
+    .summary-meta,
+    .archive-meta {
+      color: rgba(255, 255, 255, 0.68);
+      font-size: 13px;
+    }
+
+    .audio-wave {
+      height: 82px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin: 8px 0 24px;
+      padding: 0 2px;
+      overflow: hidden;
+    }
+
+    .audio-wave span {
+      flex: 1;
+      min-width: 4px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, #fbbf24, #2dd4bf 55%, #60a5fa);
+      opacity: 0.86;
+    }
+
+    .audio-wave span:nth-child(2n) { height: 42%; }
+    .audio-wave span:nth-child(3n) { height: 76%; }
+    .audio-wave span:nth-child(4n) { height: 55%; }
+    .audio-wave span:nth-child(5n) { height: 92%; }
+
+    .audio-console .preview-audio {
+      width: 100%;
+      display: block;
+      accent-color: var(--brand);
+    }
+
+    .doc-view,
+    .markdown-view,
+    .data-view,
+    .archive-view,
+    .font-view,
+    .summary-view {
+      width: 100%;
+      height: calc(100vh - 220px);
+      min-height: 520px;
+      overflow: auto;
+      align-self: stretch;
+      background: #eef2f6;
+      padding: 26px;
+    }
+
+    .markdown-page,
+    .data-page,
+    .archive-page,
+    .font-page,
+    .summary-page {
+      max-width: 980px;
+      min-height: 100%;
+      margin: 0 auto;
+      padding: 34px;
+      border: 1px solid #d7dde5;
+      border-radius: 8px;
+      background: #fff;
+      color: #111827;
+      box-shadow: 0 18px 48px rgba(15, 23, 42, 0.1);
+    }
+
+    .markdown-page h1,
+    .markdown-page h2,
+    .markdown-page h3 {
+      margin: 22px 0 12px;
+      line-height: 1.25;
+    }
+
+    .markdown-page h1:first-child,
+    .markdown-page h2:first-child,
+    .markdown-page h3:first-child {
+      margin-top: 0;
+    }
+
+    .markdown-page p,
+    .markdown-page li {
+      line-height: 1.78;
+    }
+
+    .markdown-page blockquote {
+      margin: 16px 0;
+      padding: 10px 14px;
+      border-left: 4px solid var(--brand);
+      background: #f4f8f8;
+      color: #344054;
+    }
+
+    .markdown-page code,
+    .markdown-page pre,
+    .inline-code {
+      font-family: Consolas, Monaco, "Courier New", monospace;
+    }
+
+    .markdown-page pre,
+    .data-code {
+      margin: 14px 0;
+      padding: 16px;
+      border-radius: 8px;
+      background: var(--code-bg);
+      color: var(--code-text);
+      overflow: auto;
+      line-height: 1.6;
+      white-space: pre;
+    }
+
+    .data-summary,
+    .summary-stack {
+      display: grid;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .data-summary {
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+
+    .data-chip,
+    .summary-chip {
+      border: 1px solid #d8e0ea;
+      border-radius: 8px;
+      padding: 11px 12px;
+      background: #f8fafc;
+    }
+
+    .data-chip strong,
+    .summary-chip strong {
+      display: block;
+      margin-bottom: 3px;
+      font-size: 12px;
+      color: #667085;
+    }
+
+    .table-scroll,
+    .archive-list {
+      overflow: auto;
+      border: 1px solid #d8e0ea;
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    .table-preview {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    .table-preview th,
+    .table-preview td {
+      border-bottom: 1px solid #e5ebf2;
+      border-right: 1px solid #eef2f6;
+      padding: 8px 10px;
+      text-align: left;
+      vertical-align: top;
+      overflow-wrap: anywhere;
+    }
+
+    .table-preview th {
+      position: sticky;
+      top: 0;
+      background: #f8fafc;
+      color: #475467;
+      z-index: 1;
+    }
+
+    .archive-row {
+      display: grid;
+      grid-template-columns: 34px minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: center;
+      min-height: 44px;
+      padding: 8px 12px;
+      border-bottom: 1px solid #edf1f5;
+    }
+
+    .archive-row:last-child {
+      border-bottom: 0;
+    }
+
+    .archive-name {
+      min-width: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .archive-entry-preview {
+      margin-top: 16px;
+      border: 1px solid #d8e0ea;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #0c1220;
+    }
+
+    .archive-entry-preview header {
+      padding: 10px 12px;
+      background: #f8fafc;
+      color: #344054;
+      font-weight: 700;
+    }
+
+    .archive-entry-preview pre {
+      margin: 0;
+      max-height: 360px;
+      overflow: auto;
+      padding: 14px;
+      color: var(--code-text);
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+
+    .font-sample {
+      margin-top: 20px;
+      padding: 22px;
+      border-radius: 8px;
+      border: 1px dashed #b7c4d2;
+      background: #f8fafc;
+    }
+
+    .font-sample .font-large {
+      margin: 0 0 12px;
+      font-size: 42px;
+      line-height: 1.15;
+      overflow-wrap: anywhere;
+    }
+
+    .font-sample .font-body {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.75;
+    }
+
+    .summary-icon {
+      width: 54px;
+      height: 54px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 14px;
+      color: #101828;
+      background: linear-gradient(135deg, #ccfbf1, #fef3c7);
+      font-size: 24px;
+      font-weight: 800;
+    }
+
+    .summary-page h2,
+    .archive-page h2,
+    .font-page h2,
+    .data-page h2 {
+      margin: 0 0 8px;
+      line-height: 1.25;
+    }
+
+    .summary-page p,
+    .archive-page p,
+    .font-page p,
+    .data-page p {
+      color: #475467;
+      line-height: 1.7;
+    }
+
+    .deferred-gate {
+      position: relative;
+      overflow: hidden;
+      border-radius: 8px;
+      background:
+        linear-gradient(135deg, rgba(8, 13, 22, 0.92), rgba(19, 78, 74, 0.76)),
+        #0b1220;
+    }
+
+    .deferred-gate::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+      background-size: 18px 18px;
+      filter: blur(1px);
+      opacity: 0.44;
+    }
+
+    .deferred-gate > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    body.embed {
+      background: #070b12;
+    }
+
+    body.embed .viewer {
+      background:
+        linear-gradient(180deg, rgba(8, 13, 22, 0.94), rgba(11, 18, 32, 0.98));
+    }
+
+    body.embed .media-frame {
+      min-height: 100vh;
+    }
+
+    body.embed .doc-view,
+    body.embed .markdown-view,
+    body.embed .data-view,
+    body.embed .archive-view,
+    body.embed .font-view,
+    body.embed .summary-view {
+      height: 100vh;
+      min-height: 100vh;
+    }
+
     @media (max-width: 720px) {
       .topbar {
         align-items: stretch;
@@ -460,6 +943,56 @@
         min-height: 100%;
         padding: 22px 18px;
       }
+
+      .title-group p {
+        max-width: none;
+        white-space: normal;
+      }
+
+      .doc-view,
+      .markdown-view,
+      .data-view,
+      .archive-view,
+      .font-view,
+      .summary-view {
+        padding: 10px;
+      }
+
+      .markdown-page,
+      .data-page,
+      .archive-page,
+      .font-page,
+      .summary-page {
+        padding: 18px;
+      }
+
+      .audio-console {
+        width: calc(100% - 24px);
+        padding: 18px;
+      }
+
+      .audio-head {
+        grid-template-columns: 48px minmax(0, 1fr);
+      }
+
+      .audio-mark {
+        width: 48px;
+        height: 48px;
+        font-size: 22px;
+      }
+
+      .audio-wave {
+        height: 58px;
+      }
+
+      .archive-row {
+        grid-template-columns: 28px minmax(0, 1fr);
+      }
+
+      .archive-row .btn {
+        grid-column: 2;
+        justify-self: start;
+      }
     }
   </style>
   <link rel="stylesheet" href="/mobile-refactor.css">
@@ -504,15 +1037,32 @@
     (() => {
       "use strict";
 
-      const IMAGE_EXTS = new Set(["jpg", "jpeg", "png", "gif", "webp", "bmp", "svg", "ico", "avif"]);
-      const VIDEO_EXTS = new Set(["mp4", "webm", "ogg", "ogv", "mov", "m4v"]);
-      const AUDIO_EXTS = new Set(["mp3", "wav", "ogg", "oga", "flac", "aac", "m4a", "opus"]);
-      const TEXT_EXTS = new Set([
-        "txt", "md", "json", "xml", "html", "htm", "css", "js", "mjs", "ts", "tsx", "jsx",
-        "py", "java", "c", "cpp", "h", "hpp", "go", "rs", "sh", "bat", "ps1", "sql",
-        "yaml", "yml", "toml", "ini", "conf", "cfg", "log", "csv"
+      const IMAGE_EXTS = new Set(["jpg", "jpeg", "jfif", "pjpeg", "pjp", "png", "apng", "gif", "webp", "bmp", "tif", "tiff", "svg", "ico", "avif", "heic", "heif", "jxl"]);
+      const VIDEO_EXTS = new Set(["mp4", "webm", "ogg", "ogv", "mov", "m4v", "m3u8", "avi", "mkv", "wmv", "flv", "3gp", "ts", "mts", "m2ts"]);
+      const AUDIO_EXTS = new Set(["mp3", "mpeg", "wav", "ogg", "oga", "flac", "aac", "m4a", "opus", "weba", "midi", "mid", "wma", "ape", "aif", "aiff"]);
+      const MARKDOWN_EXTS = new Set(["md", "markdown", "mdown"]);
+      const JSON_EXTS = new Set(["json", "jsonc", "json5", "ipynb"]);
+      const TABLE_EXTS = new Set(["csv", "tsv"]);
+      const ARCHIVE_EXTS = new Set(["zip", "jar", "rar", "7z", "tar", "tgz", "gz", "gzip", "bz2", "xz"]);
+      const FONT_EXTS = new Set(["ttf", "otf", "woff", "woff2"]);
+      const SUMMARY_EXTS = new Set([
+        "psd", "ai", "eps", "sqlite", "sqlite3", "db", "parquet", "avro", "wasm", "webarchive",
+        "dwg", "dxf", "dwf", "dwfx", "xps", "ofd", "typ", "typst", "xmind", "drawio", "dio",
+        "epub", "umd", "geojson", "kml", "gpx", "shp", "glb", "gltf", "obj", "stl", "ply",
+        "fbx", "dae", "3ds", "3mf", "usd", "usdz", "kmz", "step", "stp", "iges", "igs", "ifc"
       ]);
-      const OPEN_XML_EXTS = new Set(["docx", "xlsx", "pptx"]);
+      const TEXT_EXTS = new Set([
+        "txt", "xml", "html", "htm", "css", "js", "mjs", "ts", "tsx", "jsx", "vue",
+        "py", "java", "c", "cpp", "h", "hpp", "go", "rs", "sh", "bat", "ps1", "sql",
+        "yaml", "yml", "toml", "ini", "conf", "cfg", "log", "patch", "diff", "proto",
+        "hcl", "tex", "graphql", "http", "rb", "swift", "kt", "kts", "php", "cs"
+      ]);
+      const OFFICE_KIND_BY_EXT = {
+        docx: "docx", docm: "docx", dotx: "docx", dotm: "docx",
+        xlsx: "xlsx", xlsm: "xlsx", xltx: "xlsx", xltm: "xlsx",
+        pptx: "pptx", pptm: "pptx", ppsx: "pptx", ppsm: "pptx", potx: "pptx", potm: "pptx"
+      };
+      const OPEN_XML_EXTS = new Set(Object.keys(OFFICE_KIND_BY_EXT));
 
       const params = new URLSearchParams(window.location.search);
       const state = {
@@ -703,7 +1253,13 @@
         if (type.startsWith("video/") || VIDEO_EXTS.has(ext)) return "video";
         if (type.startsWith("audio/") || AUDIO_EXTS.has(ext)) return "audio";
         if (type === "application/pdf" || ext === "pdf") return "pdf";
-        if (OPEN_XML_EXTS.has(ext)) return ext;
+        if (OPEN_XML_EXTS.has(ext)) return OFFICE_KIND_BY_EXT[ext];
+        if (MARKDOWN_EXTS.has(ext)) return "markdown";
+        if (JSON_EXTS.has(ext)) return "json";
+        if (TABLE_EXTS.has(ext)) return "table";
+        if (ARCHIVE_EXTS.has(ext)) return "archive";
+        if (FONT_EXTS.has(ext)) return "font";
+        if (SUMMARY_EXTS.has(ext)) return "summary";
         if (type.startsWith("text/") || TEXT_EXTS.has(ext)) return "text";
         return "unsupported";
       }
@@ -720,7 +1276,7 @@
       }
 
       function displayTypeName(kind, ext) {
-        const suffix = ext ? ext.toUpperCase() : "FILE";
+        const suffix = ext ? ext.toUpperCase() : "文件";
         const names = {
           image: "图片",
           video: "视频",
@@ -728,7 +1284,13 @@
           pdf: "PDF",
           docx: "Word 文档",
           xlsx: "Excel 表格",
-          pptx: "PowerPoint",
+          pptx: "演示文稿",
+          markdown: "Markdown 文档",
+          json: "JSON 数据",
+          table: "表格数据",
+          archive: "压缩包",
+          font: "字体",
+          summary: "安全摘要",
           text: "文本"
         };
         return `${names[kind] || "暂不支持"} · ${suffix}`;
@@ -789,9 +1351,21 @@
           renderAudio();
         } else if (state.kind === "pdf") {
           renderPdf();
+        } else if (state.kind === "markdown") {
+          await renderMarkdown();
+        } else if (state.kind === "json") {
+          await renderJson();
+        } else if (state.kind === "table") {
+          await renderTableData();
+        } else if (state.kind === "archive") {
+          await renderArchive();
+        } else if (state.kind === "font") {
+          await renderFont();
+        } else if (state.kind === "summary") {
+          renderCapabilitySummary();
         } else if (state.kind === "text") {
           await renderText();
-        } else if (OPEN_XML_EXTS.has(state.kind)) {
+        } else if (["docx", "xlsx", "pptx"].includes(state.kind)) {
           await renderOpenXml(state.kind);
         } else {
           showStatus("此格式暂不支持在线预览", "可以直接下载后用本地应用打开。");
@@ -800,6 +1374,7 @@
 
       function setViewerClass() {
         els.viewer.className = "viewer";
+        els.viewer.dataset.kind = state.kind;
         if (state.kind === "image" || state.kind === "video" || state.kind === "audio") {
           els.viewer.classList.add("media");
         }
@@ -822,6 +1397,8 @@
 
       function renderVideo() {
         clearViewer();
+        const frame = document.createElement("div");
+        frame.className = "media-frame";
         const video = document.createElement("video");
         video.className = "preview-video";
         video.controls = true;
@@ -830,11 +1407,39 @@
         video.autoplay = state.autoplay;
         video.src = state.fileUrl;
         video.onerror = () => showStatus("视频加载失败", "请确认文件为浏览器可播放的 mp4/webm/mov 编码，并且直链可访问。", "error");
-        els.viewer.appendChild(video);
+        frame.appendChild(video);
+        els.viewer.appendChild(frame);
       }
 
       function renderAudio() {
         clearViewer();
+        const panel = document.createElement("section");
+        panel.className = "audio-console";
+
+        const head = document.createElement("div");
+        head.className = "audio-head";
+
+        const mark = document.createElement("div");
+        mark.className = "audio-mark";
+        mark.textContent = "♪";
+
+        const title = document.createElement("div");
+        title.className = "audio-title";
+        const strong = document.createElement("strong");
+        strong.textContent = state.fileName;
+        const meta = document.createElement("span");
+        meta.textContent = `${displayTypeName(state.kind, state.extension)}${state.fileSize > 0 ? ` · ${formatSize(state.fileSize)}` : ""}`;
+        title.append(strong, meta);
+        head.append(mark, title);
+
+        const wave = document.createElement("div");
+        wave.className = "audio-wave";
+        for (let index = 0; index < 28; index += 1) {
+          const bar = document.createElement("span");
+          bar.style.height = `${24 + ((index * 37) % 68)}%`;
+          wave.appendChild(bar);
+        }
+
         const audio = document.createElement("audio");
         audio.className = "preview-audio";
         audio.controls = true;
@@ -842,7 +1447,8 @@
         audio.autoplay = state.autoplay;
         audio.src = state.fileUrl;
         audio.onerror = () => showStatus("音频加载失败", "请确认文件为浏览器可播放的 mp3/wav/ogg/m4a 编码，并且直链可访问。", "error");
-        els.viewer.appendChild(audio);
+        panel.append(head, wave, audio);
+        els.viewer.appendChild(panel);
       }
 
       function renderPdf() {
@@ -856,14 +1462,656 @@
 
       async function renderText() {
         showStatus("正在读取文本", "请稍候");
+        const text = await fetchText("文本");
+        showTextView(text);
+      }
+
+      async function fetchText(label) {
         const response = await fetch(state.fileUrl, { credentials: "include" });
-        if (!response.ok) throw new Error(`文本读取失败：HTTP ${response.status}`);
-        const text = await response.text();
+        if (!response.ok) throw new Error(`${label}读取失败：HTTP ${response.status}`);
+        return response.text();
+      }
+
+      function showTextView(text, className = "") {
         clearViewer();
         const pre = document.createElement("pre");
-        pre.className = "text-view";
+        pre.className = `text-view ${className}`.trim();
         pre.textContent = text;
         els.viewer.appendChild(pre);
+      }
+
+      async function renderMarkdown() {
+        showStatus("正在渲染 Markdown", "以只读阅读面展示，不执行文档中的脚本。");
+        const text = await fetchText("Markdown");
+        clearViewer();
+
+        const wrapper = document.createElement("div");
+        wrapper.className = "markdown-view";
+        const page = document.createElement("article");
+        page.className = "markdown-page";
+        appendMarkdown(page, text);
+        wrapper.appendChild(page);
+        els.viewer.appendChild(wrapper);
+      }
+
+      function appendMarkdown(page, source) {
+        const lines = String(source || "").replace(/\r\n/g, "\n").split("\n");
+        let paragraph = [];
+        let list = null;
+        let codeLines = null;
+
+        const flushParagraph = () => {
+          if (!paragraph.length) return;
+          const p = document.createElement("p");
+          appendInlineText(p, paragraph.join(" "));
+          page.appendChild(p);
+          paragraph = [];
+        };
+
+        const closeList = () => {
+          if (list) {
+            page.appendChild(list);
+            list = null;
+          }
+        };
+
+        for (const line of lines) {
+          const fence = line.match(/^```/);
+          if (fence && codeLines) {
+            const pre = document.createElement("pre");
+            const code = document.createElement("code");
+            code.textContent = codeLines.join("\n");
+            pre.appendChild(code);
+            page.appendChild(pre);
+            codeLines = null;
+            continue;
+          }
+          if (codeLines) {
+            codeLines.push(line);
+            continue;
+          }
+          if (fence) {
+            flushParagraph();
+            closeList();
+            codeLines = [];
+            continue;
+          }
+
+          if (!line.trim()) {
+            flushParagraph();
+            closeList();
+            continue;
+          }
+
+          const heading = line.match(/^(#{1,3})\s+(.+)$/);
+          if (heading) {
+            flushParagraph();
+            closeList();
+            const level = Math.min(3, heading[1].length);
+            const h = document.createElement(`h${level}`);
+            appendInlineText(h, heading[2].trim());
+            page.appendChild(h);
+            continue;
+          }
+
+          const quote = line.match(/^>\s?(.+)$/);
+          if (quote) {
+            flushParagraph();
+            closeList();
+            const block = document.createElement("blockquote");
+            appendInlineText(block, quote[1].trim());
+            page.appendChild(block);
+            continue;
+          }
+
+          const bullet = line.match(/^\s*(?:[-*+]|\d+\.)\s+(.+)$/);
+          if (bullet) {
+            flushParagraph();
+            if (!list) list = /^\s*\d+\./.test(line) ? document.createElement("ol") : document.createElement("ul");
+            const item = document.createElement("li");
+            appendInlineText(item, bullet[1].trim());
+            list.appendChild(item);
+            continue;
+          }
+
+          paragraph.push(line.trim());
+        }
+
+        if (codeLines) {
+          const pre = document.createElement("pre");
+          const code = document.createElement("code");
+          code.textContent = codeLines.join("\n");
+          pre.appendChild(code);
+          page.appendChild(pre);
+        }
+        flushParagraph();
+        closeList();
+
+        if (!page.childElementCount) {
+          const empty = document.createElement("p");
+          empty.textContent = "Markdown 文件没有可展示的内容。";
+          page.appendChild(empty);
+        }
+      }
+
+      function appendInlineText(parent, text) {
+        const parts = String(text || "").split(/(`[^`]+`)/g);
+        for (const part of parts) {
+          if (part.startsWith("`") && part.endsWith("`") && part.length > 1) {
+            const code = document.createElement("code");
+            code.className = "inline-code";
+            code.textContent = part.slice(1, -1);
+            parent.appendChild(code);
+          } else if (part) {
+            parent.appendChild(document.createTextNode(part));
+          }
+        }
+      }
+
+      async function renderJson() {
+        showStatus("正在解析 JSON", "会先在浏览器本地格式化，解析失败时回退为源码预览。");
+        const text = await fetchText("JSON");
+        let formatted = text;
+        let summary = "源码";
+        let valid = false;
+
+        try {
+          const parsed = JSON.parse(stripJsonComments(text));
+          formatted = JSON.stringify(parsed, null, 2);
+          summary = summarizeJsonValue(parsed);
+          valid = true;
+        } catch (error) {
+          summary = error.message || "解析失败";
+        }
+
+        const wrapper = createPagedView("data-view", "data-page");
+        const page = wrapper.firstElementChild;
+        appendPageHeading(page, valid ? "JSON 结构预览" : "JSON 源码预览", valid ? "已格式化为只读结构，适合快速检查 API 响应、配置和元数据。" : "文件不是严格 JSON，已按源码安全展示。");
+        page.appendChild(createDataSummary([
+          ["状态", valid ? "解析成功" : "回退源码"],
+          ["结构", summary],
+          ["大小", state.fileSize > 0 ? formatSize(state.fileSize) : "未知"],
+          ["行数", String(formatted.split("\n").length)]
+        ]));
+
+        const pre = document.createElement("pre");
+        pre.className = "data-code";
+        pre.textContent = formatted;
+        page.appendChild(pre);
+
+        clearViewer();
+        els.viewer.appendChild(wrapper);
+      }
+
+      function stripJsonComments(text) {
+        return String(text || "")
+          .replace(/^\uFEFF/, "")
+          .replace(/\/\*[\s\S]*?\*\//g, "")
+          .replace(/(^|[^:])\/\/.*$/gm, "$1")
+          .replace(/,\s*([}\]])/g, "$1");
+      }
+
+      function summarizeJsonValue(value) {
+        if (Array.isArray(value)) return `数组 · ${value.length} 项`;
+        if (value && typeof value === "object") return `对象 · ${Object.keys(value).length} 个键`;
+        if (value === null) return "null";
+        return typeof value;
+      }
+
+      async function renderTableData() {
+        showStatus("正在读取表格数据", "CSV/TSV 会转换成可横向滚动的只读表格。");
+        const text = await fetchText("表格");
+        const delimiter = state.extension === "tsv" ? "\t" : ",";
+        const rows = parseDelimited(text, delimiter).filter((row) => row.some((cell) => cell !== ""));
+
+        if (!rows.length) {
+          showStatus("表格为空", "没有读取到可展示的行。");
+          return;
+        }
+
+        const maxCols = Math.min(40, Math.max(...rows.map((row) => row.length)));
+        const previewRows = rows.slice(0, 260);
+        const wrapper = createPagedView("data-view", "data-page");
+        const page = wrapper.firstElementChild;
+        appendPageHeading(page, `${state.extension.toUpperCase()} 表格预览`, "只渲染前 260 行和前 40 列，避免大文件阻塞浏览器。");
+        page.appendChild(createDataSummary([
+          ["总行数", String(rows.length)],
+          ["预览行", String(previewRows.length)],
+          ["列数", String(maxCols)],
+          ["大小", state.fileSize > 0 ? formatSize(state.fileSize) : "未知"]
+        ]));
+
+        const scroll = document.createElement("div");
+        scroll.className = "table-scroll";
+        const table = document.createElement("table");
+        table.className = "table-preview";
+
+        const thead = document.createElement("thead");
+        const headerRow = document.createElement("tr");
+        const header = previewRows[0] || [];
+        for (let col = 0; col < maxCols; col += 1) {
+          const th = document.createElement("th");
+          th.textContent = header[col] || `列 ${col + 1}`;
+          headerRow.appendChild(th);
+        }
+        thead.appendChild(headerRow);
+        table.appendChild(thead);
+
+        const tbody = document.createElement("tbody");
+        for (const row of previewRows.slice(1)) {
+          const tr = document.createElement("tr");
+          for (let col = 0; col < maxCols; col += 1) {
+            const td = document.createElement("td");
+            td.textContent = row[col] || "";
+            tr.appendChild(td);
+          }
+          tbody.appendChild(tr);
+        }
+        table.appendChild(tbody);
+        scroll.appendChild(table);
+        page.appendChild(scroll);
+
+        clearViewer();
+        els.viewer.appendChild(wrapper);
+      }
+
+      function parseDelimited(text, delimiter) {
+        const rows = [];
+        let row = [];
+        let cell = "";
+        let quoted = false;
+        const input = String(text || "");
+
+        for (let index = 0; index < input.length; index += 1) {
+          const char = input[index];
+          const next = input[index + 1];
+
+          if (char === '"' && quoted && next === '"') {
+            cell += '"';
+            index += 1;
+            continue;
+          }
+          if (char === '"') {
+            quoted = !quoted;
+            continue;
+          }
+          if (!quoted && char === delimiter) {
+            row.push(cell);
+            cell = "";
+            continue;
+          }
+          if (!quoted && (char === "\n" || char === "\r")) {
+            if (char === "\r" && next === "\n") index += 1;
+            row.push(cell);
+            rows.push(row);
+            row = [];
+            cell = "";
+            continue;
+          }
+          cell += char;
+        }
+
+        row.push(cell);
+        rows.push(row);
+        return rows;
+      }
+
+      async function renderArchive() {
+        const ext = state.extension;
+        showStatus("正在读取压缩包目录", "仅在需要时解析目录，避免一次性展开大文件。");
+        const response = await fetch(state.fileUrl, { credentials: "include" });
+        if (!response.ok) throw new Error(`压缩包读取失败：HTTP ${response.status}`);
+        const buffer = await response.arrayBuffer();
+
+        if (ext === "zip" || ext === "jar") {
+          const zip = await loadZip(buffer);
+          renderArchivePage("ZIP 压缩包目录", zip.entries(), zip);
+          return;
+        }
+
+        if (ext === "tar") {
+          const tar = createTarSource(buffer);
+          renderArchivePage("TAR 归档目录", tar.entries(), tar);
+          return;
+        }
+
+        if ((ext === "tgz" || ext === "gz" || ext === "gzip") && "DecompressionStream" in window) {
+          try {
+            const stream = new Blob([buffer]).stream().pipeThrough(new DecompressionStream("gzip"));
+            const inflated = await new Response(stream).arrayBuffer();
+            if (ext === "tgz" || /\.tar\.gz$/i.test(state.fileName)) {
+              const tar = createTarSource(inflated);
+              renderArchivePage("TAR.GZ 归档目录", tar.entries(), tar);
+              return;
+            }
+          } catch (error) {
+            console.warn("gzip preview skipped:", error);
+          }
+        }
+
+        renderCapabilitySummary({
+          title: "压缩包已识别",
+          detail: "当前轻量预览已支持 ZIP/JAR 目录读取和 TAR/TAR.GZ 目录读取。RAR、7Z、BZ2、XZ 需要更重的 WASM 解压器，建议下载或后续接入专用渲染器。",
+          category: "归档容器"
+        });
+      }
+
+      function renderArchivePage(title, entries, source) {
+        const visibleEntries = entries.filter((entry) => !entry.name.endsWith("/")).slice(0, 500);
+        const wrapper = createPagedView("archive-view", "archive-page");
+        const page = wrapper.firstElementChild;
+        appendPageHeading(page, title, `共识别 ${entries.length} 个条目，当前展示前 ${visibleEntries.length} 个文件。`);
+        page.appendChild(createDataSummary([
+          ["格式", state.extension.toUpperCase()],
+          ["文件数", String(entries.filter((entry) => !entry.isDirectory).length)],
+          ["目录数", String(entries.filter((entry) => entry.isDirectory).length)],
+          ["大小", state.fileSize > 0 ? formatSize(state.fileSize) : "未知"]
+        ]));
+
+        const list = document.createElement("div");
+        list.className = "archive-list";
+        const previewBox = document.createElement("div");
+        previewBox.className = "archive-entry-preview";
+        previewBox.hidden = true;
+
+        for (const entry of visibleEntries) {
+          const row = document.createElement("div");
+          row.className = "archive-row";
+          const badge = document.createElement("strong");
+          badge.textContent = entry.isDirectory ? "目录" : (getExtension(entry.name) || "文件").slice(0, 4).toUpperCase();
+
+          const name = document.createElement("div");
+          name.className = "archive-name";
+          name.textContent = entry.name;
+
+          row.append(badge, name);
+          if (canPreviewArchiveEntry(entry)) {
+            const button = document.createElement("button");
+            button.type = "button";
+            button.className = "btn";
+            button.textContent = "预览";
+            button.addEventListener("click", () => previewArchiveEntry(source, entry, previewBox));
+            row.appendChild(button);
+          }
+          list.appendChild(row);
+        }
+
+        page.append(list, previewBox);
+        clearViewer();
+        els.viewer.appendChild(wrapper);
+      }
+
+      function canPreviewArchiveEntry(entry) {
+        if (entry.isDirectory) return false;
+        const ext = getExtension(entry.name);
+        const size = Number(entry.uncompressedSize || 0);
+        if (size > 2 * 1024 * 1024) return false;
+        return IMAGE_EXTS.has(ext) || TEXT_EXTS.has(ext) || MARKDOWN_EXTS.has(ext) || JSON_EXTS.has(ext) || TABLE_EXTS.has(ext);
+      }
+
+      async function previewArchiveEntry(source, entry, previewBox) {
+        previewBox.hidden = false;
+        previewBox.replaceChildren();
+        const header = document.createElement("header");
+        header.textContent = entry.name;
+        previewBox.appendChild(header);
+
+        try {
+          const data = await source.bytes(entry.name);
+          if (!data) throw new Error("没有读取到内部文件内容。");
+          const ext = getExtension(entry.name);
+          if (IMAGE_EXTS.has(ext)) {
+            const image = document.createElement("img");
+            image.alt = entry.name;
+            image.src = URL.createObjectURL(new Blob([data], { type: mimeForExtension(ext) }));
+            image.style.maxWidth = "100%";
+            image.style.display = "block";
+            image.style.background = "#111827";
+            previewBox.appendChild(image);
+            return;
+          }
+
+          const text = new TextDecoder("utf-8").decode(data);
+          const pre = document.createElement("pre");
+          pre.textContent = JSON_EXTS.has(ext) ? tryFormatJson(text) : text;
+          previewBox.appendChild(pre);
+        } catch (error) {
+          const pre = document.createElement("pre");
+          pre.textContent = error.message || "内部文件预览失败。";
+          previewBox.appendChild(pre);
+        }
+      }
+
+      function tryFormatJson(text) {
+        try {
+          return JSON.stringify(JSON.parse(stripJsonComments(text)), null, 2);
+        } catch {
+          return text;
+        }
+      }
+
+      function mimeForExtension(ext) {
+        const map = {
+          jpg: "image/jpeg", jpeg: "image/jpeg", png: "image/png", gif: "image/gif",
+          webp: "image/webp", svg: "image/svg+xml", bmp: "image/bmp", ico: "image/x-icon",
+          avif: "image/avif"
+        };
+        return map[ext] || "application/octet-stream";
+      }
+
+      function createTarSource(arrayBuffer) {
+        const bytes = new Uint8Array(arrayBuffer);
+        const entries = [];
+        let offset = 0;
+
+        while (offset + 512 <= bytes.length) {
+          const header = bytes.slice(offset, offset + 512);
+          if (header.every((byte) => byte === 0)) break;
+
+          const name = readTarString(header, 0, 100);
+          const prefix = readTarString(header, 345, 155);
+          const fullName = [prefix, name].filter(Boolean).join("/");
+          const size = parseInt(readTarString(header, 124, 12).trim() || "0", 8) || 0;
+          const typeFlag = String.fromCharCode(header[156] || 0);
+          const dataStart = offset + 512;
+          const isDirectory = typeFlag === "5" || fullName.endsWith("/");
+
+          if (fullName) {
+            entries.push({
+              name: fullName,
+              uncompressedSize: size,
+              compressedSize: size,
+              method: "tar",
+              dataStart,
+              isDirectory
+            });
+          }
+
+          offset = dataStart + Math.ceil(size / 512) * 512;
+        }
+
+        return {
+          entries: () => entries,
+          bytes: async (name) => {
+            const entry = entries.find((item) => item.name === name);
+            if (!entry) return null;
+            return bytes.slice(entry.dataStart, entry.dataStart + entry.uncompressedSize);
+          }
+        };
+      }
+
+      function readTarString(bytes, start, length) {
+        return new TextDecoder("utf-8")
+          .decode(bytes.slice(start, start + length))
+          .replace(/\0.*$/g, "");
+      }
+
+      async function renderFont() {
+        showStatus("正在加载字体样张", "字体只会临时注册到当前预览页。");
+        if (!("FontFace" in window)) {
+          showStatus("当前浏览器不支持 FontFace 预览", "可以下载字体后用本地字体管理器查看。", "error");
+          return;
+        }
+
+        const response = await fetch(state.fileUrl, { credentials: "include" });
+        if (!response.ok) throw new Error(`字体读取失败：HTTP ${response.status}`);
+        const blob = await response.blob();
+        const objectUrl = URL.createObjectURL(blob);
+        const family = `KVaultPreviewFont${Date.now()}`;
+
+        try {
+          const face = new FontFace(family, `url(${objectUrl})`);
+          await face.load();
+          document.fonts.add(face);
+        } catch (error) {
+          URL.revokeObjectURL(objectUrl);
+          showStatus("字体加载失败", error.message || "浏览器无法解析该字体文件。", "error");
+          return;
+        }
+
+        const wrapper = createPagedView("font-view", "font-page");
+        const page = wrapper.firstElementChild;
+        appendPageHeading(page, "字体样张", "使用浏览器字体接口在本页临时加载，离开预览后不会写入系统。");
+        page.appendChild(createDataSummary([
+          ["格式", state.extension.toUpperCase()],
+          ["大小", state.fileSize > 0 ? formatSize(state.fileSize) : "未知"],
+          ["来源", "K-Vault 文件直链"],
+          ["状态", "已加载"]
+        ]));
+
+        const sample = document.createElement("div");
+        sample.className = "font-sample";
+        sample.style.fontFamily = `"${family}", sans-serif`;
+        const large = document.createElement("p");
+        large.className = "font-large";
+        large.textContent = "K-Vault 文件预览 0123456789";
+        const body = document.createElement("p");
+        body.className = "font-body";
+        body.textContent = "中文样张：轻量、清晰、可审阅。英文字符样张：Aa Bb Cc 0123456789。";
+        sample.append(large, body);
+        page.appendChild(sample);
+
+        clearViewer();
+        els.viewer.appendChild(wrapper);
+      }
+
+      function renderCapabilitySummary(options = {}) {
+        const info = getCapabilityInfo(state.extension);
+        const title = options.title || info.title;
+        const detail = options.detail || info.detail;
+        const category = options.category || info.category;
+        const wrapper = createPagedView("summary-view", "summary-page");
+        const page = wrapper.firstElementChild;
+
+        const icon = document.createElement("div");
+        icon.className = "summary-icon";
+        icon.textContent = (state.extension || "文件").slice(0, 3).toUpperCase();
+        page.appendChild(icon);
+        appendPageHeading(page, title, detail);
+        page.appendChild(createDataSummary([
+          ["格式", state.extension ? state.extension.toUpperCase() : "未知"],
+          ["类别", category],
+          ["大小", state.fileSize > 0 ? formatSize(state.fileSize) : "未知"],
+          ["处理", "安全摘要"]
+        ]));
+
+        const stack = document.createElement("div");
+        stack.className = "summary-stack";
+        for (const item of info.notes) {
+          const chip = document.createElement("div");
+          chip.className = "summary-chip";
+          const strong = document.createElement("strong");
+          strong.textContent = item[0];
+          const span = document.createElement("span");
+          span.textContent = item[1];
+          chip.append(strong, span);
+          stack.appendChild(chip);
+        }
+        page.appendChild(stack);
+
+        clearViewer();
+        els.viewer.appendChild(wrapper);
+      }
+
+      function getCapabilityInfo(ext) {
+        const groups = [
+          {
+            match: ["dwg", "dxf", "dwf", "dwfx", "xps"],
+            title: "工程图纸已识别",
+            category: "工程图纸（CAD/DWF）",
+            detail: "K-Vault 已识别工程图纸类型。当前轻量预览提供安全摘要，完整矢量/图层渲染建议后续接入专用 CAD 渲染器。",
+            notes: [["边界", "不在浏览器里执行不可信二进制指令。"], ["建议", "业务侧优先提供 PDF、DXF 或受控 CAD 预览服务。"]]
+          },
+          {
+            match: ["psd", "ai", "eps"],
+            title: "设计资产已识别",
+            category: "设计文件",
+            detail: "当前提供文件摘要。PSD 图层、AI/PDF-backed 文件和 EPS 需要专用解析器才能高保真展示。",
+            notes: [["可落地能力", "图片类资产仍会直接走浏览器原生解码。"], ["建议", "设计源文件可同时导出 PNG/SVG 作为快速预览。"]]
+          },
+          {
+            match: ["sqlite", "sqlite3", "db", "parquet", "avro", "wasm", "webarchive"],
+            title: "结构化数据已识别",
+            category: "数据资产",
+            detail: "当前提供安全摘要。SQLite、Parquet、Avro 和 WASM 需要按需加载 WASM 与后台线程后才适合完整解析。",
+            notes: [["安全", "不执行 WASM，也不展开未知二进制内容。"], ["建议", "大数据文件优先在业务层提供抽样或分页索引。"]]
+          },
+          {
+            match: ["glb", "gltf", "obj", "stl", "ply", "fbx", "dae", "3ds", "3mf", "usd", "usdz", "kmz", "step", "stp", "iges", "igs", "ifc"],
+            title: "三维 / BIM 文件已识别",
+            category: "三维模型",
+            detail: "当前提供安全摘要。完整三维预览需要 Three.js 加载器或更重的几何 WASM 内核。",
+            notes: [["推荐格式", "浏览器预览优先使用 GLB/GLTF。"], ["边界", "STEP/IFC/IGES 通常需要专业几何内核。"]]
+          },
+          {
+            match: ["ofd", "typ", "typst", "xmind", "drawio", "dio", "epub", "umd", "geojson", "kml", "gpx", "shp"],
+            title: "专业文档类型已识别",
+            category: "知识 / 地理 / 绘图",
+            detail: "当前提供安全摘要。此类格式可后续按业务优先级接入独立渲染器，避免拖慢普通文件首屏。",
+            notes: [["策略", "命中格式后再加载重型依赖。"], ["建议", "常用附件优先沉淀为 PDF、Markdown、图片或稳定交换格式。"]]
+          }
+        ];
+
+        const found = groups.find((group) => group.match.includes(ext));
+        return found || {
+          title: "文件类型已识别",
+          category: "其他文件",
+          detail: "当前格式暂未提供高保真在线渲染，K-Vault 会保留下载和直链能力。",
+          notes: [["下一步", "可按真实业务样本补充专用预览链路。"], ["安全", "未知格式不会在预览页执行。"]]
+        };
+      }
+
+      function createPagedView(wrapperClass, pageClass) {
+        const wrapper = document.createElement("div");
+        wrapper.className = wrapperClass;
+        const page = document.createElement("article");
+        page.className = pageClass;
+        wrapper.appendChild(page);
+        return wrapper;
+      }
+
+      function appendPageHeading(page, title, detail) {
+        const heading = document.createElement("h2");
+        heading.textContent = title;
+        const p = document.createElement("p");
+        p.textContent = detail;
+        page.append(heading, p);
+      }
+
+      function createDataSummary(items) {
+        const summary = document.createElement("div");
+        summary.className = "data-summary";
+        for (const [label, value] of items) {
+          const chip = document.createElement("div");
+          chip.className = "data-chip";
+          const strong = document.createElement("strong");
+          strong.textContent = label;
+          const span = document.createElement("span");
+          span.textContent = value;
+          chip.append(strong, span);
+          summary.appendChild(chip);
+        }
+        return summary;
       }
 
       async function renderOpenXml(kind) {
@@ -1167,6 +2415,7 @@
           const flags = view.getUint16(offset + 8, true);
           const method = view.getUint16(offset + 10, true);
           const compressedSize = view.getUint32(offset + 20, true);
+          const uncompressedSize = view.getUint32(offset + 24, true);
           const fileNameLength = view.getUint16(offset + 28, true);
           const extraLength = view.getUint16(offset + 30, true);
           const commentLength = view.getUint16(offset + 32, true);
@@ -1177,7 +2426,9 @@
           entries.set(fileName, {
             method,
             compressedSize,
-            localHeaderOffset
+            uncompressedSize,
+            localHeaderOffset,
+            isDirectory: fileName.endsWith("/")
           });
 
           offset += 46 + fileNameLength + extraLength + commentLength;
@@ -1187,7 +2438,7 @@
           const entry = entries.get(name);
           if (!entry) return null;
           if (view.getUint32(entry.localHeaderOffset, true) !== 0x04034b50) {
-            throw new Error(`ZIP local header missing for ${name}`);
+            throw new Error(`ZIP 内部条目头缺失：${name}`);
           }
 
           const fileNameLength = view.getUint16(entry.localHeaderOffset + 26, true);
@@ -1202,6 +2453,7 @@
 
         return {
           names: () => Array.from(entries.keys()),
+          entries: () => Array.from(entries, ([name, entry]) => ({ name, ...entry })),
           bytes: bytesFor,
           text: async (name) => {
             const data = await bytesFor(name);
